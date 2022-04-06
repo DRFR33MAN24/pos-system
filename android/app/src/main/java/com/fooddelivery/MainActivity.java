@@ -1,7 +1,7 @@
 package com.fooddelivery;
 
 import com.facebook.react.ReactActivity;
-
+import android.os.Bundle;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -12,4 +12,9 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "FoodDelivery";
   }
+
+  @Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
 }
