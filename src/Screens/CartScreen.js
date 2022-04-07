@@ -5,7 +5,10 @@ import {
   Divider,
   TopNavigation,
 } from '@ui-kitten/components';
-import {SafeAreaView} from 'react-native';
+import React from 'react';
+import {SafeAreaView, ScrollView} from 'react-native';
+import CartItem from '../Components/CartItem';
+
 export const CartScreen = ({navigation}) => {
   const navigateDetails = () => {
     navigation.navigate('Details');
@@ -13,11 +16,15 @@ export const CartScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <TopNavigation title="MyApp" alignment="center" />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Button onPress={navigateDetails}>OPEN DETAILS</Button>
-      </Layout>
+      <ScrollView style={{flex: 1}}>
+        <CartItem />
+        <CartItem />
+        <CartItem />
+        <CartItem />
+        <CartItem />
+        <CartItem />
+      </ScrollView>
     </SafeAreaView>
   );
 };

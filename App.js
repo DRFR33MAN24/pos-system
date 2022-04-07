@@ -6,7 +6,8 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {AppNavigator} from './src/Screens/BottomTabNavigator';
 
 import {Provider} from 'react-redux';
-import store from './store';
+import store from './src/store';
+
 const App = () => {
   return (
     <Provider store={store}>
