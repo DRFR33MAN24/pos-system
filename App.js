@@ -1,18 +1,20 @@
 import React from 'react';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import {AppNavigator} from './src/Screens/BottomTabNavigator';
+import CartScreen from './src/Screens/CartScreen';
+import {Provider} from 'react-redux';
+import store from './store';
 const App: () => Node = () => {
-  const HomeScreen = () => (
-    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text category="h1">HOME</Text>
-    </Layout>
-  );
-
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <HomeScreen />
-    </ApplicationProvider>
+    <Provider store={store}>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <AppNavigator />
+      </ApplicationProvider>
+    </Provider>
   );
 };
 
