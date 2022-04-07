@@ -4,10 +4,10 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {AppNavigator} from './src/Screens/BottomTabNavigator';
-import CartScreen from './src/Screens/CartScreen';
+
 import {Provider} from 'react-redux';
 import store from './store';
-const App: () => Node = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <IconRegistry icons={EvaIconsPack} />

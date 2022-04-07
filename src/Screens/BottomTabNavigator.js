@@ -11,14 +11,14 @@ const BottomTabBar = ({navigation, state}) => (
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
     <BottomNavigationTab title="Cart" />
-    <BottomNavigationTab title="Settings" />
+    {/* <BottomNavigationTab title="Settings" /> */}
   </BottomNavigation>
 );
 
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen name="Cart" component={CartScreen} />
-    <Screen name="Settings" component={SettingsScreen} />
+    {/* <Screen name="Settings" component={SettingsScreen} /> */}
   </Navigator>
 );
 
