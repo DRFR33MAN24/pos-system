@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
@@ -14,7 +14,7 @@ import {
 import {CartScreen} from './CartScreen';
 import {SettingsScreen} from './SettingsScreen';
 import {StyleSheet} from 'react-native';
-import BarcodeScanner from 'react-native-scan-barcode';
+import {BarCodeScanner} from 'expo-barcode-scanner';
 const {Navigator, Screen} = createBottomTabNavigator();
 
 export const CameraIcon = () => (
@@ -25,14 +25,26 @@ export const SearchIcon = () => (
 );
 function LogoTitle() {
   const [visible, setVisible] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
 
-  state = {
-    torchMode: 'on',
-    cameraType: 'back',
-  };
+  useEffect(() => {
+    (async () => {
+      const {status} = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
-  const barcodeReceived = e => {
-    console.log(e.data.toString());
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+  const handleBarCodeScanned = ({type, data}) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   return (
@@ -42,11 +54,9 @@ function LogoTitle() {
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
         <Layout>
-          <BarcodeScanner
-            onBarCodeRead={barcodeReceived}
-            style={{flex: 1, width: 300, height: 300}}
-            torchMode={state.torchMode}
-            cameraType={state.cameraType}
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={StyleSheet.absoluteFillObject}
           />
         </Layout>
       </Modal>
