@@ -14,7 +14,8 @@ import {
 import {CartScreen} from './CartScreen';
 import {SettingsScreen} from './SettingsScreen';
 import {StyleSheet} from 'react-native';
-import {BarCodeScanner} from 'expo-barcode-scanner';
+//import {BarCodeScanner} from 'expo-barcode-scanner';
+import {Camera} from 'expo-camera';
 const {Navigator, Screen} = createBottomTabNavigator();
 
 export const CameraIcon = () => (
@@ -27,10 +28,10 @@ function LogoTitle() {
   const [visible, setVisible] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
+  const [cameraReset, setCameraReset] = useState(0);
   useEffect(() => {
     (async () => {
-      const {status} = await BarCodeScanner.requestPermissionsAsync();
+      const {status} = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -42,10 +43,11 @@ function LogoTitle() {
     return <Text>No access to camera</Text>;
   }
 
-  const handleBarCodeScanned = ({type, data}) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
+  // const handleBarCodeScanned = ({type, data}) => {
+  //   setScanned(true);
+  //   console.log(data);
+  //   alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  // };
 
   return (
     <>
@@ -53,12 +55,22 @@ function LogoTitle() {
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <Layout>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
+        <Layout style={{width: 400, height: 400}}>
+          <Camera
+            key={cameraReset}
+            onBarCodeScanned={(...args) => {
+              const data = args[0].data;
+              console.log(data);
+
+              setCameraReset(cameraReset + 1);
+            }}
+            barCodeScannerSettings={{
+              barCodeTypes: ['upc_ean', 'upc_e', 'upc_a'],
+            }}
+            style={{flex: 1}}
           />
         </Layout>
+        {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
       </Modal>
       <Layout style={styles.container}>
         <Button appearance="ghost" onPress={() => setVisible(!visible)}>
