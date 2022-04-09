@@ -19,4 +19,3 @@ export const getProductByCode = async code => {
 
   return res;
 };
-export const getProductById = () => {};
