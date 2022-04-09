@@ -3,12 +3,12 @@ import db from './database';
 export const getProductByCode = async code => {
   let res;
   db.executeSql(
-    `SELECT name,latitude  FROM Offices where name=${code};`,
+    `SELECT *  FROM Offices `,
     [],
-    results => {
+    result => {
       // console.log('Query completed', results.rows.length);
       if (result.rows.length !== 0) {
-        res = results.rows.item(0);
+        res = result.rows.item(0);
       } else {
         res = [];
         console.log('No records');

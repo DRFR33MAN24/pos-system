@@ -1,10 +1,11 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {getItemByCode} from '../../api/stockService';
+import {getProductByCode} from '../../api/stockService';
 
 export const fetchItemByCode = createAsyncThunk(
   'cart/fetchItemByCode',
   async code => {
-    const response = await getItemByCode(code);
+    const response = await getProductByCode(code);
+    console.log(response);
     return response;
   },
 );
@@ -14,6 +15,7 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     status: 'idle',
+    searchItem: [],
   },
   reducers: {
     addItem: state => {
@@ -37,7 +39,7 @@ const cartSlice = createSlice({
         // action.payload.forEach(todo => {
         //   newEntities[todo.id] = todo;
         // });
-        state.items = [...state, action.payload];
+        state.searchItem = [...state, action.payload];
         state.status = 'idle';
       });
   },

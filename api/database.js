@@ -20,39 +20,23 @@ let db = SQLite.openDatabase(
   },
 );
 
-//   db.executeSql(
-//       'CREATE TABLE IF NOT EXISTS Version( ' +
-//         'version_id INTEGER PRIMARY KEY NOT NULL); ',
-//       [],
-//       () => console.log('Database created successfully'),
-//       err => console.log('Database Creation error!', err),
-//     );
+db.executeSql(
+  'CREATE TABLE IF NOT EXISTS Offices( ' +
+    'office_id INTEGER PRIMARY KEY NOT NULL, ' +
+    'name VARCHAR(20), ' +
+    'longtitude FLOAT, ' +
+    'latitude FLOAT ) ; ',
+  [],
+  () => console.log('Table created successfully'),
+  err => console.log('Table Creation error!', err),
+);
 
-//     db.executeSql(
-//       'CREATE TABLE IF NOT EXISTS Version( ' +
-//         'version_id INTEGER PRIMARY KEY NOT NULL); ',
-//       [],
-//       () => console.log('Database created successfully'),
-//       err => console.log('Database Creation error!', err),
-//     );
-
-//     db.executeSql(
-//       'CREATE TABLE IF NOT EXISTS Offices( ' +
-//         'office_id INTEGER PRIMARY KEY NOT NULL, ' +
-//         'name VARCHAR(20), ' +
-//         'longtitude FLOAT, ' +
-//         'latitude FLOAT ) ; ',
-//       [],
-//       () => console.log('Table created successfully'),
-//       err => console.log('Table Creation error!', err),
-//     );
-
-//     db.executeSql(
-//       'INSERT INTO Offices (name, longtitude, latitude) VALUES ("Denver", 59.8,  34.);',
-//       [],
-//       () => console.log('Data inserted successfully'),
-//       err => console.log('Data insertion error!', err),
-//     );
+db.executeSql(
+  'INSERT INTO Offices (name, longtitude, latitude) VALUES ("Denver", 59.8,  34.);',
+  [],
+  () => console.log('Data inserted successfully'),
+  err => console.log('Data insertion error!', err),
+);
 
 //     db.executeSql(
 //       `SELECT *  FROM Offices`,

@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 import store from './src/store';
 import db from './api/database';
 const App = () => {
-  useEffect(async () => {}, []);
+  //useEffect(async () => {}, []);
   return (
     <Provider store={store}>
       <IconRegistry icons={EvaIconsPack} />

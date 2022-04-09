@@ -25,6 +25,7 @@ function SearchItem(props) {
         value={value}
         onChangeText={nextValue => {
           setValue(nextValue);
+
           dispatch(fetchItemByCode(nextValue));
         }}
       />
