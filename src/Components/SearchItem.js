@@ -14,10 +14,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchItemByCode} from '../Reducers/cartSlice';
 function SearchItem(props) {
   const dispatch = useDispatch();
-  const item = useSelector(state => state.cart);
+  const cart = useSelector(state => state.cart);
 
   const [value, setValue] = React.useState('');
-  const searchResults = [{name: 'Apple'}, {name: 'Orange'}];
 
   return (
     <Layout>
@@ -29,9 +28,9 @@ function SearchItem(props) {
           dispatch(fetchItemByCode(nextValue));
         }}
       />
-      {searchResults.length !== 0 ? (
+      {cart.items.length !== 0 ? (
         <ScrollView>
-          {searchResults.map(item => (
+          {cart.items.map(item => (
             <Text key={item.name}>{item.name}</Text>
           ))}
         </ScrollView>
