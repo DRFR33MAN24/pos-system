@@ -1,9 +1,19 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {getItemByCode} from '../../api/stockService';
 
-export const counterSlice = createSlice({
+export const fetchItemByCode = createAsyncThunk(
+  'cart/fetchItemByCode',
+  async code => {
+    const response = await getItemByCode(code);
+    return response;
+  },
+);
+
+const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     items: [],
+    status: 'idle',
   },
   reducers: {
     addItem: state => {
@@ -17,9 +27,23 @@ export const counterSlice = createSlice({
       //   state.value -= 1;
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchItemByCode.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchItemByCode.fulfilled, (state, action) => {
+        // const newEntities = {};
+        // action.payload.forEach(todo => {
+        //   newEntities[todo.id] = todo;
+        // });
+        state.items = [...state, action.payload];
+        state.status = 'idle';
+      });
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {addItem, removeItem} = counterSlice.actions;
+export const {addItem, removeItem} = cartSlice.actions;
 
-export default counterSlice.reducer;
+export default cartSlice.reducer;
