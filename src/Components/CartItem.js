@@ -44,18 +44,26 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   qtyButtons: {
-    backgroundColor: 'black',
+    // backgroundColor: 'red',
+
     flexDirection: 'column',
     flex: 1,
   },
   qtyButton: {
     fontSize: 40,
+    backgroundColor: 'black',
     color: '#fff',
     textAlign: 'center',
+    // paddingHorizontal: 10,
+    // paddingVertical: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 60 / 2,
+    // borderRadius: 50,
   },
   qtyText: {
     fontSize: 30,
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
   },
   productImg: {

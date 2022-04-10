@@ -58,11 +58,11 @@ function LogoTitle() {
   return (
     <>
       <Modal
-        style={{marginHorizontal: 40}}
+        style={{flex: 1}}
         visible={searchBarVis}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setSearchBarVis(false)}>
-        <Layout>
+        <Layout style={{width: 400}}>
           <SearchBar />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}

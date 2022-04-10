@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 import {
   Input,
   Button,
@@ -10,8 +10,8 @@ import {
   Text,
 } from '@ui-kitten/components';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { searchItemByCode } from '../Reducers/cartSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {searchItemByCode} from '../Reducers/cartSlice';
 function SearchBar(props) {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
@@ -19,8 +19,9 @@ function SearchBar(props) {
   const [value, setValue] = React.useState('');
 
   return (
-    <Layout>
+    <Layout style={{}}>
       <Input
+        style={{}}
         placeholder="Place your Text"
         value={value}
         onChangeText={nextValue => {
