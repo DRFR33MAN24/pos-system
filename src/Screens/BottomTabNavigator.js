@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addCartItem, addItemByCode } from '../Reducers/cartSlice';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -12,14 +14,14 @@ import {
   Card,
   Text,
 } from '@ui-kitten/components';
-import {CartScreen} from './CartScreen';
-import {SettingsScreen} from './SettingsScreen';
-import {StockScreen} from './StockScreen';
-import {StyleSheet} from 'react-native';
+import { CartScreen } from './CartScreen';
+import { SettingsScreen } from './SettingsScreen';
+import { StockScreen } from './StockScreen';
+import { StyleSheet } from 'react-native';
 //import {BarCodeScanner} from 'expo-barcode-scanner';
-import {Camera} from 'expo-camera';
+import { Camera } from 'expo-camera';
 import SearchBar from '../Components/SearchBar';
-const {Navigator, Screen} = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 export const CameraIcon = () => (
   <Icon style={styles.icon} fill="#8F9BB3" name="camera" />
@@ -35,9 +37,10 @@ function LogoTitle() {
   const [cameraReset, setCameraReset] = useState(0);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch);
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const {status} = await Camera.requestCameraPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -58,11 +61,11 @@ function LogoTitle() {
   return (
     <>
       <Modal
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         visible={searchBarVis}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setSearchBarVis(false)}>
-        <Layout style={{width: 400}}>
+        <Layout style={{ width: 400 }}>
           <SearchBar />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
@@ -71,7 +74,7 @@ function LogoTitle() {
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <Layout style={{width: 400, height: 400}}>
+        <Layout style={{ width: 400, height: 400 }}>
           <Camera
             type={type}
             flashMode={flashMode}
@@ -79,13 +82,14 @@ function LogoTitle() {
             onBarCodeScanned={(...args) => {
               const data = args[0].data;
               console.log(data);
+              dispatch(addItemByCode(data))
 
               setCameraReset(cameraReset + 1);
             }}
             barCodeScannerSettings={{
               barCodeTypes: ['upc_ean', 'upc_e', 'upc_a'],
             }}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
           />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
@@ -103,7 +107,7 @@ function LogoTitle() {
     </>
   );
 }
-const BottomTabBar = ({navigation, state}) => (
+const BottomTabBar = ({ navigation, state }) => (
   <BottomNavigation
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
@@ -122,13 +126,13 @@ const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen
       name="Cart"
-      options={{headerTitle: props => <LogoTitle {...props} />}}
+      options={{ headerTitle: props => <LogoTitle {...props} /> }}
       component={CartScreen}
     />
     <Screen
       name="Settings"
       component={StackNavigator}
-      options={{headerShown: false}}
+      options={{ headerShown: false }}
     />
     {/* <Screen name="Settings" component={SettingsScreen} /> */}
   </Navigator>

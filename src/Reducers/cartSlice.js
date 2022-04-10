@@ -1,10 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getProductByCode } from '../../api/stockService';
+import { getProductByCode, getProductByName } from '../../api/stockService';
 
-export const searchItemByCode = createAsyncThunk(
-  'cart/searchItemByCode',
+export const addItemByCode = createAsyncThunk(
+  'cart/addItemByCode',
   async code => {
     const response = await getProductByCode(code);
+    console.log(response);
+    return response;
+  },
+);
+
+export const searchItemByName = createAsyncThunk(
+  'cart/searchItemByName',
+  async name => {
+    const response = await getProductByName(name);
     console.log(response);
     return response;
   },
@@ -19,12 +28,8 @@ const cartSlice = createSlice({
 
   },
   reducers: {
-    addCartItem: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      //   state.value += 1;
+    addCartItem: (state, action) => {
+      cartItems.push(action.payload)
     },
     removeCartItem: state => {
       //   state.value -= 1;
@@ -32,18 +37,27 @@ const cartSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(searchItemByCode.pending, (state, action) => {
+      .addCase(addItemByCode.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(searchItemByCode.fulfilled, (state, action) => {
+      .addCase(addItemByCode.fulfilled, (state, action) => {
         // const newEntities = {};
         // action.payload.forEach(todo => {
         //   newEntities[todo.id] = todo;
         // });
         console.log(action.payload);
+        state.cartItems.push(action.payload)
         //state.searchItems = [...state, action.payload];
         state.status = 'idle';
-      });
+      })
+      .addCase(searchItemByName.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(searchItemByName.fulfilled, (state, action) => {
+        console.log("payload", action.payload);
+        state.searchItems = [...state.searchItems, ...action.payload]
+        state.status = 'loading';
+      })
   },
 });
 
