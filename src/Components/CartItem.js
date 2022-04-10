@@ -18,9 +18,17 @@ const CartItem = props => {
   return (
     <>
       <Layout style={styles.container}>
-        <Image style={styles.productImg} source={require(defaultImg)} />
+        <Image
+          style={styles.productImg}
+          source={require(defaultImg)}
+          resizeMode="contain"
+        />
         <Layout
-          style={{flexDirection: 'column', flex: 1, backgroundColor: 'yellow'}}>
+          style={{
+            flexDirection: 'column',
+            flex: 1,
+            backgroundColor: 'transparent',
+          }}>
           <Text style={styles.productInfo}>{props.productInfo.name}</Text>
           <Text style={styles.productInfo}>{props.productInfo.price}</Text>
           <Input style={styles.input} size="small" placeholder="discount" />
@@ -49,13 +57,16 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'color-primary-300',
+    backgroundColor: 'pink',
     flexDirection: 'row',
-    borderRadius: 10,
+    borderRadius: 20,
     marginVertical: 4,
+    marginHorizontal: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   qtyButtons: {
-    // backgroundColor: 'red',
+    backgroundColor: 'transparent',
 
     flexDirection: 'column',
     flex: 1,
@@ -78,8 +89,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   productImg: {
-    width: 64,
-    height: 64,
+    width: 124,
+    height: 124,
     flex: 1,
     marginTop: 10,
     marginLeft: 10,
