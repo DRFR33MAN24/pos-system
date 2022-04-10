@@ -1,8 +1,18 @@
 import React from 'react';
-import {Layout, Button, Text, Input} from '@ui-kitten/components';
+import {
+  Layout,
+  Button,
+  Text,
+  Input,
+  useTheme,
+  useStyleSheet,
+  StyleService,
+} from '@ui-kitten/components';
 import {Image, StyleSheet} from 'react-native';
 
 const CartItem = props => {
+  //   const theme = useTheme();
+  // const styles = useStyleSheet(themedStyles);
   const defaultImg = '../img/milk.png';
   return (
     <>
@@ -38,7 +48,7 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'green',
+    backgroundColor: 'color-primary-300',
     flexDirection: 'row',
     borderRadius: 10,
     marginVertical: 4,
