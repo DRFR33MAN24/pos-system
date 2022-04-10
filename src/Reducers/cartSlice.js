@@ -19,6 +19,21 @@ export const searchItemByName = createAsyncThunk(
   },
 );
 
+const reduceCartItems = items => {
+  let newCartItems = [];
+  items.map(item => {
+    // is Item already in cart
+    let foundItem = newCartItems.findIndex(newItem => newItem.id === item.id);
+    console.log(foundItem);
+    if (foundItem !== -1) {
+      newCartItems[foundItem].qty += 1;
+    } else {
+      newCartItems.push(item);
+    }
+  });
+  return newCartItems;
+};
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -28,7 +43,8 @@ const cartSlice = createSlice({
   },
   reducers: {
     addCartItem: (state, action) => {
-      state.cartItems = [...state.cartItems, action.payload];
+      let newCartItems = [...state.cartItems, action.payload];
+      state.cartItems = reduceCartItems(newCartItems);
     },
     removeCartItem: state => {
       //   state.value -= 1;
