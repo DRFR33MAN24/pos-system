@@ -21,18 +21,19 @@ let db = SQLite.openDatabase(
 );
 
 db.executeSql(
-  'CREATE TABLE IF NOT EXISTS Offices( ' +
-  'office_id INTEGER PRIMARY KEY NOT NULL, ' +
+  'CREATE TABLE IF NOT EXISTS Stock( ' +
+  'id INTEGER PRIMARY KEY NOT NULL, ' +
   'name VARCHAR(20), ' +
-  'longtitude FLOAT, ' +
-  'latitude FLOAT ) ; ',
+  'qty INTEGER, ' +
+  'imageUrl VARCHAR(20), ' +
+  'barcode VARCHAR(20) ) ; ',
   [],
   () => console.log('Table created successfully'),
   err => console.log('Table Creation error!', err),
 );
 
 db.executeSql(
-  'INSERT INTO Offices (name, longtitude, latitude) VALUES ("Denver", 59.8,  34.);',
+  'INSERT INTO Stock (name, barcode, qty,imageUrl) VALUES ("Milk", 9004100164410,4,  milk111.png);',
   [],
   () => console.log('Data inserted successfully'),
   err => console.log('Data insertion error!', err),

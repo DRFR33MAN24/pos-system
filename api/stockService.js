@@ -2,21 +2,23 @@ import db from './database';
 
 export const getProductByCode = async code => {
   return new Promise((resolve, reject) => {
+
     db.executeSql(
-      `SELECT *  FROM Offices `,
+      `SELECT *  FROM Stock where name=${code}`,
       [],
       result => {
-        // console.log('Query completed', results.rows.length);
-        if (result.rows.length !== 0) {
 
+        if (result.rows.length !== 0) {
+          // Create Products array that is consumable by target
           resolve(result.rows.item(0));
         } else {
 
           reject(null)
         }
       },
-      err => console.log('Query Error', err),
+      err => reject(err),
     );
+
   })
 
 
