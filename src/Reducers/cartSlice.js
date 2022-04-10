@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getProductByCode, getProductByName } from '../../api/stockService';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {getProductByCode, getProductByName} from '../../api/stockService';
 
 export const addItemByCode = createAsyncThunk(
   'cart/addItemByCode',
@@ -25,11 +25,10 @@ const cartSlice = createSlice({
     cartItems: [],
     searchItems: [],
     status: 'idle',
-
   },
   reducers: {
     addCartItem: (state, action) => {
-      cartItems.push(action.payload)
+      state.cartItems = [...state.cartItems, action.payload];
     },
     removeCartItem: state => {
       //   state.value -= 1;
@@ -46,7 +45,7 @@ const cartSlice = createSlice({
         //   newEntities[todo.id] = todo;
         // });
         console.log(action.payload);
-        state.cartItems.push(action.payload)
+        state.cartItems.push(action.payload);
         //state.searchItems = [...state, action.payload];
         state.status = 'idle';
       })
@@ -54,14 +53,14 @@ const cartSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(searchItemByName.fulfilled, (state, action) => {
-        console.log("payload", action.payload);
-        state.searchItems = [...state.searchItems, ...action.payload]
+        console.log('payload', action.payload);
+        state.searchItems = [...state.searchItems, ...action.payload];
         state.status = 'loading';
-      })
+      });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addCartItem, removeCartItem } = cartSlice.actions;
+export const {addCartItem, removeCartItem} = cartSlice.actions;
 
 export default cartSlice.reducer;

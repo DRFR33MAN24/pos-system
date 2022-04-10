@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 import {
   Input,
   Button,
@@ -9,21 +9,27 @@ import {
   Card,
   Text,
   Menu,
-  MenuItem
+  MenuItem,
 } from '@ui-kitten/components';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { addCartItem, searchItemByName } from '../Reducers/cartSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {addCartItem, searchItemByName} from '../Reducers/cartSlice';
 function SearchBar(props) {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
 
   const [value, setValue] = React.useState('');
-  console.log("SearchBar", cart.searchItems);
+
   return (
-    <Layout style={{}}>
+    <Layout
+      style={{
+        paddingHorizontal: 10,
+        borderRadius: 20,
+        paddingVertical: 20,
+        backgroundColor: 'color-primary-300',
+      }}>
       <Input
-        style={{}}
+        style={{marginBottom: 5}}
         placeholder="Place your Text"
         value={value}
         onChangeText={nextValue => {
@@ -33,23 +39,15 @@ function SearchBar(props) {
         }}
       />
       {cart.searchItems.length !== 0 ? (
-
         <Menu
           // selectedIndex={selectedIndex}
           onSelect={index => {
-            dispatch(addCartItem(cart.searchItems[index]))
+            dispatch(addCartItem(cart.searchItems[index - 1]));
           }}>
           {cart.searchItems.map(item => (
-
-            <MenuItem
-              title={item.name}
-              key={item.id}
-
-            />
-
+            <MenuItem title={item.name} key={item.id} />
           ))}
         </Menu>
-
       ) : (
         <Text>No Items Found!</Text>
       )}

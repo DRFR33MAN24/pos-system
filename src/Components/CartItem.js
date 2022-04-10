@@ -8,18 +8,19 @@ import {
   useStyleSheet,
   StyleService,
 } from '@ui-kitten/components';
-import { Image, StyleSheet } from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 
 const CartItem = props => {
   //   const theme = useTheme();
   // const styles = useStyleSheet(themedStyles);
+  //console.log('CartItem', props.productInfo);
   const defaultImg = '../img/milk.png';
   return (
     <>
       <Layout style={styles.container}>
         <Image style={styles.productImg} source={require(defaultImg)} />
         <Layout
-          style={{ flexDirection: 'column', flex: 1, backgroundColor: 'yellow' }}>
+          style={{flexDirection: 'column', flex: 1, backgroundColor: 'yellow'}}>
           <Text style={styles.productInfo}>{props.productInfo.name}</Text>
           <Text style={styles.productInfo}>{props.productInfo.price}</Text>
           <Input style={styles.input} size="small" placeholder="discount" />
