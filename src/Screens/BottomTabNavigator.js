@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, {useState, useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -11,14 +12,15 @@ import {
   Card,
   Text,
 } from '@ui-kitten/components';
-import { CartScreen } from './CartScreen';
-import { SettingsScreen } from './SettingsScreen';
-import { StyleSheet } from 'react-native';
+import {CartScreen} from './CartScreen';
+import {SettingsScreen} from './SettingsScreen';
+import {StockScreen} from './StockScreen';
+import {StyleSheet} from 'react-native';
 //import {BarCodeScanner} from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
+import {Camera} from 'expo-camera';
 import SearchBar from '../Components/SearchBar';
-const { Navigator, Screen } = createBottomTabNavigator();
-
+const {Navigator, Screen} = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 export const CameraIcon = () => (
   <Icon style={styles.icon} fill="#8F9BB3" name="camera" />
 );
@@ -35,7 +37,7 @@ function LogoTitle() {
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch);
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      const {status} = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -55,11 +57,12 @@ function LogoTitle() {
 
   return (
     <>
-      <Modal style={{ marginHorizontal: 40 }}
+      <Modal
+        style={{marginHorizontal: 40}}
         visible={searchBarVis}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setSearchBarVis(false)}>
-        <Layout >
+        <Layout>
           <SearchBar />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
@@ -68,8 +71,10 @@ function LogoTitle() {
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <Layout style={{ width: 400, height: 400 }}>
-          <Camera type={type} flashMode={flashMode}
+        <Layout style={{width: 400, height: 400}}>
+          <Camera
+            type={type}
+            flashMode={flashMode}
             key={cameraReset}
             onBarCodeScanned={(...args) => {
               const data = args[0].data;
@@ -80,7 +85,7 @@ function LogoTitle() {
             barCodeScannerSettings={{
               barCodeTypes: ['upc_ean', 'upc_e', 'upc_a'],
             }}
-            style={{ flex: 1 }}
+            style={{flex: 1}}
           />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
@@ -89,14 +94,16 @@ function LogoTitle() {
         <Button appearance="ghost" onPress={() => setVisible(!visible)}>
           <CameraIcon />
         </Button>
-        <Button appearance="ghost" onPress={() => setSearchBarVis(!searchBarVis)}>
+        <Button
+          appearance="ghost"
+          onPress={() => setSearchBarVis(!searchBarVis)}>
           <SearchIcon />
         </Button>
       </Layout>
     </>
   );
 }
-const BottomTabBar = ({ navigation, state }) => (
+const BottomTabBar = ({navigation, state}) => (
   <BottomNavigation
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
@@ -105,14 +112,25 @@ const BottomTabBar = ({ navigation, state }) => (
   </BottomNavigation>
 );
 
+const StackNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+    <Stack.Screen name="Stock" component={StockScreen} />
+  </Stack.Navigator>
+);
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen
       name="Cart"
-      options={{ headerTitle: props => <LogoTitle {...props} /> }}
+      options={{headerTitle: props => <LogoTitle {...props} />}}
       component={CartScreen}
     />
-    <Screen name="Settings" component={SettingsScreen} />
+    <Screen
+      name="Settings"
+      component={StackNavigator}
+      options={{headerShown: false}}
+    />
+    {/* <Screen name="Settings" component={SettingsScreen} /> */}
   </Navigator>
 );
 
