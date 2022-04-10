@@ -13,10 +13,10 @@ import {
 } from '@ui-kitten/components';
 import { CartScreen } from './CartScreen';
 import { SettingsScreen } from './SettingsScreen';
-import SearchItem from '../Components/SearchItem'
 import { StyleSheet } from 'react-native';
 //import {BarCodeScanner} from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
+import SearchBar from '../Components/SearchBar';
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export const CameraIcon = () => (
@@ -60,7 +60,7 @@ function LogoTitle() {
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setSearchBarVis(false)}>
         <Layout >
-          <SearchItem />
+          <SearchBar />
         </Layout>
         {/* {<Button onPress={() => setScanned(false)}>Scan</Button>} */}
       </Modal>

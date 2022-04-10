@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import { ScrollView } from 'react-native';
 import {
   Input,
   Button,
@@ -10,9 +10,9 @@ import {
   Text,
 } from '@ui-kitten/components';
 
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchItemByCode} from '../Reducers/cartSlice';
-function SearchItem(props) {
+import { useSelector, useDispatch } from 'react-redux';
+import { searchItemByCode } from '../Reducers/cartSlice';
+function SearchBar(props) {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
 
@@ -26,12 +26,12 @@ function SearchItem(props) {
         onChangeText={nextValue => {
           setValue(nextValue);
 
-          dispatch(fetchItemByCode(nextValue));
+          dispatch(searchItemByCode(nextValue));
         }}
       />
-      {cart.items.length !== 0 ? (
+      {cart.searchItems.length !== 0 ? (
         <ScrollView>
-          {cart.items.map(item => (
+          {cart.searchItems.map(item => (
             <Text key={item.name}>{item.name}</Text>
           ))}
         </ScrollView>
@@ -42,4 +42,4 @@ function SearchItem(props) {
   );
 }
 
-export default SearchItem;
+export default SearchBar;
