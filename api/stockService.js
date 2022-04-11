@@ -12,7 +12,7 @@ export const getProductByCode = async code => {
             const itemMod = Object.assign({}, results.rows.item(index), {
               qty: 1,
             });
-            res.push(itemMod);
+            res.push(results.rows.item(index));
           }
 
           resolve(res);
@@ -37,7 +37,7 @@ export const getProductByName = async name => {
             const itemMod = Object.assign({}, results.rows.item(index), {
               qty: 1,
             });
-            res.push(itemMod);
+            res.push(results.rows.item(index));
           }
 
           resolve(res);
