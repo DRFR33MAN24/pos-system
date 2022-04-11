@@ -64,7 +64,7 @@ const cartSlice = createSlice({
 
       //let newCartItems = [...state.cartItems, action.payload];
     },
-    decreaseCartItem: (state, action) => {
+    decreaseItemQty: (state, action) => {
       //find if item exitsts
       //if qty > 0 decrease qty
       //else remove item
@@ -107,6 +107,6 @@ const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {addCartItem, removeCartItem} = cartSlice.actions;
+export const {addCartItem, removeCartItem, decreaseItemQty} = cartSlice.actions;
 
 export default cartSlice.reducer;

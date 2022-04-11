@@ -14,6 +14,7 @@ import {
   addCartItem,
   addItemByCode,
   removeCartItem,
+  decreaseItemQty,
 } from '../Reducers/cartSlice';
 const CartItem = props => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const CartItem = props => {
     dispatch(addItemByCode(props.productInfo.barcode));
   };
   const removeOneItem = () => {
-    dispatch(remvoeCartItem(props.productInfo.id));
+    dispatch(decreaseItemQty(props.productInfo));
   };
   const removeItem = () => {
     dispatch(removeCartItem(props.productInfo));
