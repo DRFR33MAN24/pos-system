@@ -3,7 +3,7 @@ import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
-import {AppNavigator} from './src/Screens/BottomTabNavigator';
+import {AppNavigator} from './src/Screens/Navigators';
 
 import {Provider} from 'react-redux';
 import store from './src/store';

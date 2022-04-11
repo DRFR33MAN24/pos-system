@@ -29,8 +29,8 @@ export const getProductByName = async name => {
   return new Promise((resolve, reject) => {
     let res = [];
     db.executeSql(
-      `SELECT *  FROM Stock WHERE name= ?`,
-      [name],
+      `SELECT *  FROM Stock WHERE name like  ?`,
+      ['%' + name + '%'],
       results => {
         if (results.rows.length !== 0) {
           for (let index = 0; index < results.rows.length; index++) {

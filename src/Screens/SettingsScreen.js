@@ -19,7 +19,7 @@ const StarIcon = props => <Icon {...props} name="star" />;
 const ForwardIcon = props => <Icon {...props} name="arrow-ios-forward" />;
 
 export const SettingsScreen = ({navigation}) => {
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  // const [selectedIndex, setSelectedIndex] = useState(null);
   const styles = useStyleSheet(themedStyles);
   const navigateStock = () => {
     navigation.navigate('Stock');
@@ -28,17 +28,19 @@ export const SettingsScreen = ({navigation}) => {
   return (
     <Layout style={styles.container}>
       <Menu
-        selectedIndex={selectedIndex}
-        onSelect={index => {
-          setSelectedIndex(index);
-          navigateStock();
-        }}>
+      // selectedIndex={selectedIndex}
+      // onSelect={index => {
+      // setSelectedIndex(index);
+
+      // }}
+      >
         <MenuItem
           title="Products"
           accessoryLeft={StarIcon}
           // accessoryRight={ForwardIcon}
+          onPress={navigateStock}
         />
-        <MenuItem
+        {/* <MenuItem
           title="Orders"
           disabled={true}
           accessoryLeft={StarIcon}
@@ -48,7 +50,7 @@ export const SettingsScreen = ({navigation}) => {
           title="Transactions"
           accessoryLeft={StarIcon}
           // accessoryRight={ForwardIcon}
-        />
+        /> */}
       </Menu>
     </Layout>
   );

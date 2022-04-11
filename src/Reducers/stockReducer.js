@@ -1,8 +1,8 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {getProductByCode, getProductByName} from '../../api/stockService';
 
-export const addItemByCode = createAsyncThunk(
-  'cart/addItemByCode',
+export const addStockItemByCode = createAsyncThunk(
+  'stock/addItemByCode',
   async (code, thunkAPI) => {
     const response = await getProductByCode(code);
     thunkAPI.dispatch(addCartItem(response[0]));
@@ -11,8 +11,8 @@ export const addItemByCode = createAsyncThunk(
   },
 );
 
-export const searchItemByName = createAsyncThunk(
-  'cart/searchItemByName',
+export const searchStockItemByName = createAsyncThunk(
+  'stock/searchItemByName',
   async name => {
     const response = await getProductByName(name);
     //console.log(response);
@@ -20,30 +20,30 @@ export const searchItemByName = createAsyncThunk(
   },
 );
 
-const reduceCartItems = items => {
-  let newCartItems = [];
-  items.map(item => {
-    // is Item already in cart
-    let foundItem = newCartItems.findIndex(newItem => newItem.id === item.id);
-    console.log(foundItem);
-    if (foundItem !== -1) {
-      newCartItems[foundItem].qty += 1;
-    } else {
-      newCartItems.push(item);
-    }
-  });
-  return newCartItems;
-};
+// const reduceCartItems = items => {
+//   let newCartItems = [];
+//   items.map(item => {
+//     // is Item already in cart
+//     let foundItem = newCartItems.findIndex(newItem => newItem.id === item.id);
+//     console.log(foundItem);
+//     if (foundItem !== -1) {
+//       newCartItems[foundItem].qty += 1;
+//     } else {
+//       newCartItems.push(item);
+//     }
+//   });
+//   return newCartItems;
+// };
 
-const cartSlice = createSlice({
-  name: 'cart',
+const stockSlice = createSlice({
+  name: 'stock',
   initialState: {
-    cartItems: [],
+    stockItems: [],
     searchItems: [],
     status: 'idle',
   },
   reducers: {
-    addCartItem: (state, action) => {
+    addStockItem: (state, action) => {
       let foundItemIndex = state.cartItems.findIndex(
         i => i.id === action.payload.id,
       );
@@ -64,7 +64,7 @@ const cartSlice = createSlice({
 
       //let newCartItems = [...state.cartItems, action.payload];
     },
-    decreaseItemQty: (state, action) => {
+    decreaseStockItemQty: (state, action) => {
       //find if item exitsts
       //if qty > 0 decrease qty
       //else remove item
@@ -80,7 +80,7 @@ const cartSlice = createSlice({
         }
       }
     },
-    removeCartItem: (state, action) => {
+    removeStockItem: (state, action) => {
       const foundItemIndex = state.cartItems.findIndex(
         item => item.id === action.payload.id,
       );
@@ -91,14 +91,14 @@ const cartSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(addItemByCode.pending, (state, action) => {
+      .addCase(addStockItemByCode.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(addItemByCode.fulfilled, (state, action) => {})
-      .addCase(searchItemByName.pending, (state, action) => {
+      .addCase(addStockItemByCode.fulfilled, (state, action) => {})
+      .addCase(searchStockItemByName.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(searchItemByName.fulfilled, (state, action) => {
+      .addCase(searchStockItemByName.fulfilled, (state, action) => {
         //console.log('payload', action.payload);
         state.searchItems = [...action.payload];
         state.status = 'loading';
@@ -107,6 +107,10 @@ const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {addCartItem, removeCartItem, decreaseItemQty} = cartSlice.actions;
+export const {
+  addStockItem,
+  removeStockItem,
+  decreaseStockItemQty,
+} = stockSlice.actions;
 
-export default cartSlice.reducer;
+export default stockSlice.reducer;
