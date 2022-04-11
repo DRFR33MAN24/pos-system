@@ -9,12 +9,22 @@ import {
   StyleService,
 } from '@ui-kitten/components';
 import {Image, StyleSheet} from 'react-native';
-
+import {useDispatch} from 'react-redux';
+import {addCartItem} from '../Reducers/cartSlice';
 const CartItem = props => {
+  const dispatch = useDispatch();
   //   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
   //console.log('CartItem', props.productInfo);
   const defaultImg = '../img/milk.png';
+
+  const addOneItem = () => {
+    dispatch(addCartItem(props.productInfo.id));
+  };
+  const removeOneItem = () => {
+    dispatch(remvoeCartItem(props.productInfo.id));
+  };
+
   return (
     <>
       <Layout style={styles.container}>
@@ -34,7 +44,7 @@ const CartItem = props => {
           <Input style={styles.input} size="small" placeholder="discount" />
         </Layout>
         <Layout style={styles.qtyButtons}>
-          <Button appearance="ghost">
+          <Button appearance="ghost" onPress={addOneItem}>
             {evaProps => (
               <Text {...evaProps} style={styles.qtyButton}>
                 +
@@ -43,7 +53,7 @@ const CartItem = props => {
           </Button>
           <Text style={styles.qtyText}>Qty</Text>
           <Text style={styles.qtyText}>{props.productInfo.qty}</Text>
-          <Button appearance="ghost">
+          <Button appearance="ghost" onPress={removeOneItem}>
             {evaProps => (
               <Text {...evaProps} style={styles.qtyButton}>
                 -
@@ -56,7 +66,7 @@ const CartItem = props => {
   );
 };
 
-const themedStyles = StyleSheet.create({
+const themedStyles = StyleService.create({
   container: {
     backgroundColor: 'color-basic-transparent-300',
     flexDirection: 'row',
