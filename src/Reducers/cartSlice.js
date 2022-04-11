@@ -99,7 +99,7 @@ const cartSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(searchItemByName.fulfilled, (state, action) => {
-        console.log('payload', action.payload);
+        //console.log('payload', action.payload);
         state.searchItems = [...state.searchItems, ...action.payload];
         state.status = 'loading';
       });
