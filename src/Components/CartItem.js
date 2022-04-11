@@ -36,9 +36,12 @@ const CartItem = props => {
   return (
     <>
       <Layout style={styles.container}>
-        <Button onPress={removeItem} style={styles.qtyButtons}>
+        <Button
+          onPress={removeItem}
+          appearance="ghost"
+          style={styles.removeItemBtn}>
           {evaProps => (
-            <Text {...evaProps} style={styles.qtyButton}>
+            <Text {...evaProps} style={styles.removeButtonText}>
               +
             </Text>
           )}
@@ -108,6 +111,26 @@ const themedStyles = StyleService.create({
     height: 60,
     borderRadius: 60 / 2,
     // borderRadius: 50,
+  },
+  removeButtonText: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontSize: 40,
+    backgroundColor: 'color-danger-default',
+    color: '#fff',
+    textAlign: 'center',
+    // paddingHorizontal: 10,
+    // paddingVertical: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 60 / 2,
+    // borderRadius: 50,
+  },
+  removeItemBtn: {
+    positon: 'absolute',
+    top: 0,
+    left: 0,
   },
   qtyText: {
     fontSize: 30,
