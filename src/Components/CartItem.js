@@ -12,7 +12,7 @@ import {Image, StyleSheet} from 'react-native';
 
 const CartItem = props => {
   //   const theme = useTheme();
-  // const styles = useStyleSheet(themedStyles);
+  const styles = useStyleSheet(themedStyles);
   //console.log('CartItem', props.productInfo);
   const defaultImg = '../img/milk.png';
   return (
@@ -41,6 +41,7 @@ const CartItem = props => {
               </Text>
             )}
           </Button>
+          <Text style={styles.qtyText}>Qty</Text>
           <Text style={styles.qtyText}>{props.productInfo.qty}</Text>
           <Button appearance="ghost">
             {evaProps => (
@@ -55,9 +56,9 @@ const CartItem = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const themedStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'pink',
+    backgroundColor: 'color-basic-transparent-300',
     flexDirection: 'row',
     borderRadius: 20,
     marginVertical: 4,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   qtyButton: {
     fontSize: 40,
-    backgroundColor: 'black',
+    backgroundColor: 'color-primary-default',
     color: '#fff',
     textAlign: 'center',
     // paddingHorizontal: 10,
