@@ -3,9 +3,10 @@ import { getProductByCode, getProductByName } from '../../api/stockService';
 
 export const addItemByCode = createAsyncThunk(
   'cart/addItemByCode',
-  async code => {
+  async (code, thunkAPI) => {
     const response = await getProductByCode(code);
-    console.log(response);
+    thunkAPI.dispatch(addCartItem(response[0]))
+    //console.log(response);
     return response;
   },
 );
@@ -14,57 +15,75 @@ export const searchItemByName = createAsyncThunk(
   'cart/searchItemByName',
   async name => {
     const response = await getProductByName(name);
-    console.log(response);
+    //console.log(response);
     return response;
   },
 );
 
-// const reduceCartItems = items => {
-//   let newCartItems = [];
-//   items.map(item => {
-//     // is Item already in cart
-//     let foundItem = newCartItems.findIndex(newItem => newItem.id === item.id);
-//     console.log(foundItem);
-//     if (foundItem !== -1) {
-//       newCartItems[foundItem].qty += 1;
-//     } else {
-//       newCartItems.push(item);
-//     }
-//   });
-//   return newCartItems;
-// };
-
-const reduceCartItems = (items, newItem) => {
-  //check if cart contain this type of item and with the right qty.
+const reduceCartItems = items => {
   let newCartItems = [];
   items.map(item => {
     // is Item already in cart
-    let foundItemIndex = newCartItems.findIndex(i => i.id === item.id);
-
-    if (foundItemIndex !== -1) {
-      if (newCartItems[foundItemIndex].qty < newItem.qty) {
-
-        newCartItems[foundItem].qty += 1;
-      }
-      else {
-        console.log("No more product available");
-      }
-
+    let foundItem = newCartItems.findIndex(newItem => newItem.id === item.id);
+    console.log(foundItem);
+    if (foundItem !== -1) {
+      newCartItems[foundItem].qty += 1;
     } else {
-      if (newItem.qty !== 0) {
-
-        const itemMod = Object.assign({}, item, {
-          qty: 1,
-        });
-        newCartItems.push(itemMod);
-      }
-      else {
-        console.log("No more product available");
-      }
+      newCartItems.push(item);
     }
   });
   return newCartItems;
 };
+
+// const reduceCartItems = (items, newItem) => {
+//   //check if cart contain this type of item and with the right qty.
+//   let newCartItems = [];
+//   if (items.length === 0) {
+//     if (newItem.qty !== 0) {
+
+//       const itemMod = Object.assign({}, newItem, {
+//         qty: 1,
+//       });
+//       newCartItems.push(itemMod);
+//     }
+//     else {
+//       console.log("No more product available");
+//     }
+//     return newCartItems;
+//   }
+//   else{
+
+//     newCartItems.concat(items);
+//     items.map(item => {
+//       // is Item already in cart
+//       let foundItemIndex = newCartItems.findIndex(i => i.id === newItem.id);
+//       console.log(foundItemIndex);
+//       if (foundItemIndex > -1) {
+//         if (newCartItems[foundItemIndex].qty < newItem.qty) {
+
+//           newCartItems[foundItem].qty += 1;
+//         }
+//         else {
+//           console.log("No more product available");
+//         }
+
+//       } else {
+//         if (newItem.qty !== 0) {
+
+
+//           const itemMod = Object.assign({}, newItem, {
+//             qty: 1,
+//           });
+//           newCartItems.push(itemMod);
+//         }
+//         else {
+//           console.log("No more product available");
+//         }
+//       }
+//     });
+//   }
+//   return newCartItems;
+// };
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -75,9 +94,27 @@ const cartSlice = createSlice({
   },
   reducers: {
     addCartItem: (state, action) => {
-      state.cartItems = reduceCartItems(state.cartItems, action.payload)
-      // let newCartItems = [...state.cartItems, action.payload];
-      // state.cartItems = reduceCartItems(newCartItems);
+
+      let foundItemIndex = state.cartItems.findIndex(i => i.id === action.payload.id);
+
+      if (foundItemIndex > -1) {
+        if (state.cartItems[foundItemIndex].qty < action.payload.qty) {
+
+          state.cartItems[foundItemIndex].qty += 1
+        }
+        else {
+          console.log("No More Items");
+        }
+      }
+      else {
+        const itemMod = Object.assign({}, action.payload, {
+          qty: 1,
+        });
+        let newCartItems = [...state.cartItems, itemMod];
+        state.cartItems = reduceCartItems(newCartItems);
+      }
+
+      //let newCartItems = [...state.cartItems, action.payload];
     },
     decreaseCartItem: (state, action) => {
       //find if item exitsts 
@@ -108,14 +145,7 @@ const cartSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(addItemByCode.fulfilled, (state, action) => {
-        // const newEntities = {};
-        // action.payload.forEach(todo => {
-        //   newEntities[todo.id] = todo;
-        // });
-        console.log(action.payload);
-        state.cartItems.push(action.payload);
-        //state.searchItems = [...state, action.payload];
-        state.status = 'idle';
+
       })
       .addCase(searchItemByName.pending, (state, action) => {
         state.status = 'loading';

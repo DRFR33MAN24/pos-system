@@ -8,9 +8,9 @@ import {
   useStyleSheet,
   StyleService,
 } from '@ui-kitten/components';
-import {Image, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {addCartItem} from '../Reducers/cartSlice';
+import { Image, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addCartItem, addItemByCode } from '../Reducers/cartSlice';
 const CartItem = props => {
   const dispatch = useDispatch();
   //   const theme = useTheme();
@@ -19,7 +19,7 @@ const CartItem = props => {
   const defaultImg = '../img/milk.png';
 
   const addOneItem = () => {
-    dispatch(addCartItem(props.productInfo.id));
+    dispatch(addItemByCode(props.productInfo.barcode));
   };
   const removeOneItem = () => {
     dispatch(remvoeCartItem(props.productInfo.id));
