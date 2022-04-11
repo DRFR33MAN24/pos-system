@@ -122,10 +122,25 @@ const BottomTabBar = ({navigation, state}) => (
   </BottomNavigation>
 );
 
+const StockHeader = () => {
+  return (
+    <Layout style={{flexDirection: 'row'}}>
+      <Button>+</Button>
+    </Layout>
+  );
+};
+
 const StackNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-    <Stack.Screen name="Stock" component={StockScreen} />
+    <Stack.Screen
+      name="Stock"
+      component={StockScreen}
+      options={{
+        headerTitle: props => <StockHeader {...props} />,
+        headerBackVisible: false,
+      }}
+    />
   </Stack.Navigator>
 );
 const TabNavigator = () => (
