@@ -1,6 +1,6 @@
 // import React from 'react';
 // import { StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/Feather';
+// import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
 
 // export const FontAwesomePack = {
 //   name: 'fontAwesome',
@@ -22,6 +22,6 @@
 // function FontAwesome({ name, style }) {
 //   const { height, tintColor, ...iconStyle } = StyleSheet.flatten(style);
 //   return (
-//     <Icon name={name} size={height} color={tintColor} style={iconStyle} />
+//     <FontAwesome name={name} size={height} color={tintColor} style={iconStyle} />
 //   );
 // }
