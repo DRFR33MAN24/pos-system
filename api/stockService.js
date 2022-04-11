@@ -4,16 +4,17 @@ export const getProductByCode = async code => {
   return new Promise((resolve, reject) => {
     let res = [];
     db.executeSql(
-      `SELECT *  FROM Stock where barcode=${code}`,
-      [],
+      `SELECT *  FROM Stock where barcode=?`,
+      [code],
       results => {
         if (results.length !== 0) {
-          // Create Products array that is consumable by target
-          results.forEach(result => {
-            for (let index = 0; index < result.rows.length; index++) {
-              res.push(result.rows.item(index));
-            }
-          });
+          for (let index = 0; index < results.rows.length; index++) {
+            const itemMod = Object.assign({}, results.rows.item(index), {
+              qty: 1,
+            });
+            res.push(itemMod);
+          }
+
           resolve(res);
         } else {
           reject(null);
