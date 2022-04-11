@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getProductByCode, getProductByName } from '../../api/stockService';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {getProductByCode, getProductByName} from '../../api/stockService';
 
 export const addItemByCode = createAsyncThunk(
   'cart/addItemByCode',
   async (code, thunkAPI) => {
     const response = await getProductByCode(code);
-    thunkAPI.dispatch(addCartItem(response[0]))
+    thunkAPI.dispatch(addCartItem(response[0]));
     //console.log(response);
     return response;
   },
@@ -35,56 +35,6 @@ const reduceCartItems = items => {
   return newCartItems;
 };
 
-// const reduceCartItems = (items, newItem) => {
-//   //check if cart contain this type of item and with the right qty.
-//   let newCartItems = [];
-//   if (items.length === 0) {
-//     if (newItem.qty !== 0) {
-
-//       const itemMod = Object.assign({}, newItem, {
-//         qty: 1,
-//       });
-//       newCartItems.push(itemMod);
-//     }
-//     else {
-//       console.log("No more product available");
-//     }
-//     return newCartItems;
-//   }
-//   else{
-
-//     newCartItems.concat(items);
-//     items.map(item => {
-//       // is Item already in cart
-//       let foundItemIndex = newCartItems.findIndex(i => i.id === newItem.id);
-//       console.log(foundItemIndex);
-//       if (foundItemIndex > -1) {
-//         if (newCartItems[foundItemIndex].qty < newItem.qty) {
-
-//           newCartItems[foundItem].qty += 1;
-//         }
-//         else {
-//           console.log("No more product available");
-//         }
-
-//       } else {
-//         if (newItem.qty !== 0) {
-
-
-//           const itemMod = Object.assign({}, newItem, {
-//             qty: 1,
-//           });
-//           newCartItems.push(itemMod);
-//         }
-//         else {
-//           console.log("No more product available");
-//         }
-//       }
-//     });
-//   }
-//   return newCartItems;
-// };
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -94,19 +44,17 @@ const cartSlice = createSlice({
   },
   reducers: {
     addCartItem: (state, action) => {
-
-      let foundItemIndex = state.cartItems.findIndex(i => i.id === action.payload.id);
+      let foundItemIndex = state.cartItems.findIndex(
+        i => i.id === action.payload.id,
+      );
 
       if (foundItemIndex > -1) {
         if (state.cartItems[foundItemIndex].qty < action.payload.qty) {
-
-          state.cartItems[foundItemIndex].qty += 1
+          state.cartItems[foundItemIndex].qty += 1;
+        } else {
+          console.log('No More Items');
         }
-        else {
-          console.log("No More Items");
-        }
-      }
-      else {
+      } else {
         const itemMod = Object.assign({}, action.payload, {
           qty: 1,
         });
@@ -117,36 +65,36 @@ const cartSlice = createSlice({
       //let newCartItems = [...state.cartItems, action.payload];
     },
     decreaseCartItem: (state, action) => {
-      //find if item exitsts 
+      //find if item exitsts
       //if qty > 0 decrease qty
       //else remove item
-      const foundItemIndex = state.cartItems.findIndex(item => item.id === action.payload.id)
+      const foundItemIndex = state.cartItems.findIndex(
+        item => item.id === action.payload.id,
+      );
       if (foundItemIndex !== -1) {
-        const item = state.cartItems[foundItemIndex]
+        const item = state.cartItems[foundItemIndex];
         if (item.qty > 1) {
           state.cartItems[foundItemIndex].qty -= 1;
-        }
-        else {
+        } else {
           state.cartItems.splice(foundItemIndex, 1);
         }
-
       }
     },
     removeCartItem: (state, action) => {
-      const foundItemIndex = state.cartItems.findIndex(item => item.id === action.payload.id)
+      const foundItemIndex = state.cartItems.findIndex(
+        item => item.id === action.payload.id,
+      );
       if (foundItemIndex !== -1) {
         state.cartItems.splice(foundItemIndex, 1);
       }
-    }
+    },
   },
   extraReducers: builder => {
     builder
       .addCase(addItemByCode.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(addItemByCode.fulfilled, (state, action) => {
-
-      })
+      .addCase(addItemByCode.fulfilled, (state, action) => {})
       .addCase(searchItemByName.pending, (state, action) => {
         state.status = 'loading';
       })
@@ -159,6 +107,6 @@ const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addCartItem, removeCartItem } = cartSlice.actions;
+export const {addCartItem, removeCartItem} = cartSlice.actions;
 
 export default cartSlice.reducer;

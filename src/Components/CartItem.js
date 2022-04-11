@@ -8,9 +8,13 @@ import {
   useStyleSheet,
   StyleService,
 } from '@ui-kitten/components';
-import { Image, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { addCartItem, addItemByCode } from '../Reducers/cartSlice';
+import {Image, StyleSheet} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {
+  addCartItem,
+  addItemByCode,
+  removeCartItem,
+} from '../Reducers/cartSlice';
 const CartItem = props => {
   const dispatch = useDispatch();
   //   const theme = useTheme();
@@ -24,10 +28,20 @@ const CartItem = props => {
   const removeOneItem = () => {
     dispatch(remvoeCartItem(props.productInfo.id));
   };
+  const removeItem = () => {
+    dispatch(removeCartItem(props.productInfo));
+  };
 
   return (
     <>
       <Layout style={styles.container}>
+        <Button onPress={removeItem} style={styles.qtyButtons}>
+          {evaProps => (
+            <Text {...evaProps} style={styles.qtyButton}>
+              +
+            </Text>
+          )}
+        </Button>
         <Image
           style={styles.productImg}
           source={require(defaultImg)}
