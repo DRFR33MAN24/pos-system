@@ -49,3 +49,41 @@ export const getProductByName = async name => {
     );
   });
 };
+
+export const migrateTable = () => {
+  db.executeSql(
+    'CREATE TABLE IF NOT EXISTS Stock( ' +
+      'id INTEGER PRIMARY KEY NOT NULL, ' +
+      'price INTEGER , ' +
+      'discount INTEGER , ' +
+      'name VARCHAR(20), ' +
+      'qty INTEGER, ' +
+      'imageUrl VARCHAR(20), ' +
+      'barcode VARCHAR(20) ) ; ',
+    [],
+    () => console.log('Table created successfully'),
+    err => console.log('Table Creation error!', err),
+  );
+
+  db.executeSql(
+    'INSERT INTO Stock (name,price,discount, barcode, qty,imageUrl) VALUES ("Milk",100,25, 9004100164410,7,  "milk.png");',
+    [],
+    () => console.log('Data inserted successfully'),
+    err => console.log('Data insertion error!', err),
+  );
+
+  db.executeSql(
+    'INSERT INTO Stock (name,price,discount, barcode, qty,imageUrl) VALUES ("Apple",200,10, 9004100164410,5,  "apple.png");',
+    [],
+    () => console.log('Data inserted successfully'),
+    err => console.log('Data insertion error!', err),
+  );
+};
+export const resetTable = () => {
+  db.executeSql(
+    `drop table Stock`,
+    [],
+    () => console.log('Table droped successfully'),
+    err => console.log('Table drop error!', err),
+  );
+};
