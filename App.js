@@ -7,9 +7,12 @@ import {AppNavigator} from './src/Screens/BottomTabNavigator';
 
 import {Provider} from 'react-redux';
 import store from './src/store';
-import db from './api/database';
+import {migrateTable, resetTable} from './api/stockService';
 const App = () => {
-  //useEffect(async () => {}, []);
+  useEffect(async () => {
+    resetTable();
+    migrateTable();
+  }, []);
   return (
     <Provider store={store}>
       <IconRegistry icons={EvaIconsPack} />

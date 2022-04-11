@@ -66,7 +66,7 @@ export const migrateTable = () => {
   );
 
   db.executeSql(
-    'INSERT INTO Stock (name,price,discount, barcode, qty,imageUrl) VALUES ("Milk",100,25, 9004100164410,7,  "milk.png");',
+    'INSERT INTO Stock (name,price,discount, barcode, qty,imageUrl) VALUES ("Milk",100,25, 8004100164411,7,  "milk.png");',
     [],
     () => console.log('Data inserted successfully'),
     err => console.log('Data insertion error!', err),
