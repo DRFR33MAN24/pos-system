@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {addCartItem, addItemByCode} from '../Reducers/cartSlice';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
@@ -21,6 +21,7 @@ import {StyleSheet} from 'react-native';
 //import {BarCodeScanner} from 'expo-barcode-scanner';
 import {Camera} from 'expo-camera';
 import SearchBar from '../Components/SearchBar';
+import {EditProductScreen} from './EditProductScreen';
 const {Navigator, Screen} = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 export const CameraIcon = () => (
@@ -123,9 +124,12 @@ const BottomTabBar = ({navigation, state}) => (
 );
 
 const StockHeader = () => {
+  let navigation = useNavigation();
   return (
     <Layout style={{flexDirection: 'row'}}>
-      <Button>+</Button>
+      <Button onPress={() => navigation.navigate('EditProductScreen')}>
+        +
+      </Button>
     </Layout>
   );
 };
@@ -133,12 +137,12 @@ const StockHeader = () => {
 const StackNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+    <Stack.Screen name="EditProductScreen" component={EditProductScreen} />
     <Stack.Screen
       name="Stock"
       component={StockScreen}
       options={{
         headerTitle: props => <StockHeader {...props} />,
-        headerBackVisible: false,
       }}
     />
   </Stack.Navigator>
