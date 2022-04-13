@@ -13,6 +13,7 @@ import {
   StyleService,
   Card,
   Input,
+  Toggle,
 } from '@ui-kitten/components';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -20,10 +21,17 @@ export const EditProductScreen = () => {
   const imageTemplate = '../img/imageTemplate.png';
   const dispatch = useDispatch();
   //const stock = useSelector(state => state.stock);
+
+  const [checked, setChecked] = React.useState(false);
+
+  const onCheckedChange = isChecked => {
+    setChecked(isChecked);
+  };
+
   return (
     <Layout>
       <Card>
-        <Text>Product Image</Text>
+        <Text style={styles.sectionTitle}>Product Image</Text>
         <Layout style={styles.container}>
           <Image
             style={styles.ImageComponent}
@@ -37,8 +45,26 @@ export const EditProductScreen = () => {
         </Layout>
       </Card>
       <Card>
-        <Text>Product Info</Text>
+        <Text style={styles.sectionTitle}>Product Info</Text>
+        <Layout style={styles.toggle}>
+          <Toggle checked={checked} onChange={onCheckedChange}>
+            {checked ? `Product enabled` : `Product Disabled`}
+          </Toggle>
+        </Layout>
         <Layout>
+          <Text>Name</Text>
+          <Input />
+        </Layout>
+        <Layout>
+          <Text>Price</Text>
+          <Input />
+        </Layout>
+        <Layout>
+          <Text>Cost Price</Text>
+          <Input />
+        </Layout>
+        <Layout>
+          <Text>SKU</Text>
           <Input />
         </Layout>
       </Card>
@@ -59,5 +85,13 @@ const styles = StyleService.create({
   ImageComponent: {
     width: 64,
     height: 64,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  toggle: {
+    flexDirection: 'row',
+    marginVertical: 10,
   },
 });
