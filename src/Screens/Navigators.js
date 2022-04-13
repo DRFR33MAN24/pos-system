@@ -22,14 +22,25 @@ import {StyleSheet} from 'react-native';
 import {Camera} from 'expo-camera';
 import SearchBar from '../Components/SearchBar';
 import {EditProductScreen} from './EditProductScreen';
+import FontAwesome, {
+  SolidIcons,
+  RegularIcons,
+  BrandIcons,
+} from 'react-native-fontawesome';
+
 const {Navigator, Screen} = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 export const CameraIcon = () => (
   <Icon style={styles.icon} fill="#8F9BB3" name="camera" />
 );
 export const SearchIcon = () => (
   <Icon style={styles.icon} fill="#8F9BB3" name="search" />
 );
+export const SaveIcon = () => (
+  <Icon style={styles.icon} fill="#8F9BB3" name="save" />
+);
+
 function LogoTitle() {
   const [visible, setVisible] = useState(false);
   const [searchBarVis, setSearchBarVis] = useState(false);
@@ -133,11 +144,27 @@ const StockHeader = () => {
     </Layout>
   );
 };
+const EditProductHeader = () => {
+  //let navigation = useNavigation();
+  return (
+    <Layout style={{flexDirection: 'row'}}>
+      <Button appearance="ghost">
+        <SaveIcon />
+      </Button>
+    </Layout>
+  );
+};
 
 const StackNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-    <Stack.Screen name="EditProductScreen" component={EditProductScreen} />
+    <Stack.Screen
+      name="EditProductScreen"
+      component={EditProductScreen}
+      options={{
+        headerTitle: props => <EditProductHeader {...props} />,
+      }}
+    />
     <Stack.Screen
       name="Stock"
       component={StockScreen}
@@ -173,6 +200,10 @@ const styles = StyleSheet.create({
   icon: {
     width: 32,
     height: 32,
+  },
+  icon16: {
+    width: 16,
+    height: 16,
   },
   container: {
     flex: 1,
