@@ -12,6 +12,7 @@ import {
   useStyleSheet,
   StyleService,
   Card,
+  Input,
 } from '@ui-kitten/components';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -22,12 +23,41 @@ export const EditProductScreen = () => {
   return (
     <Layout>
       <Card>
-        <Image source={require(imageTemplate)} resizeMode="contain" />
+        <Text>Product Image</Text>
+        <Layout style={styles.container}>
+          <Image
+            style={styles.ImageComponent}
+            source={require(imageTemplate)}
+            resizeMode="contain"
+          />
+        </Layout>
+        <Layout style={styles.chooseImage}>
+          <Button>From Gallery</Button>
+          <Button>Camera</Button>
+        </Layout>
+      </Card>
+      <Card>
+        <Text>Product Info</Text>
+        <Layout>
+          <Input />
+        </Layout>
       </Card>
     </Layout>
   );
 };
 
 const styles = StyleService.create({
-  ImageComponent: {},
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chooseImage: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+  },
+  ImageComponent: {
+    width: 64,
+    height: 64,
+  },
 });
