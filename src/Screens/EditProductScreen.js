@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Image} from 'react-native';
+import {SafeAreaView, ScrollView, Image, View} from 'react-native';
 import {
   Layout,
   Text,
@@ -16,6 +16,7 @@ import {
   Toggle,
 } from '@ui-kitten/components';
 import {useSelector, useDispatch} from 'react-redux';
+import * as ImagePicker from 'react-native-image-picker';
 
 export const EditProductScreen = () => {
   const imageTemplate = '../img/imageTemplate.png';
@@ -24,10 +25,22 @@ export const EditProductScreen = () => {
   //const stock = useSelector(state => state.stock);
 
   const [checked, setChecked] = React.useState(false);
+  const [pickerResponse, setPickerResponse] = useState(null);
 
   const onCheckedChange = isChecked => {
     setChecked(isChecked);
   };
+
+  const onImageLibraryPress = useCallback(() => {
+    const options = {
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    };
+    ImagePicker.launchImageLibrary(options, setPickerResponse);
+  }, []);
+
+  const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
 
   return (
     <ScrollView>
@@ -42,7 +55,7 @@ export const EditProductScreen = () => {
             />
           </Layout>
           <Layout style={styles.chooseImage}>
-            <Button>From Gallery</Button>
+            <Button onPress={onImageLibraryPress}>From Gallery</Button>
             <Button>Camera</Button>
           </Layout>
         </Card>
