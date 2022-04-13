@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Image} from 'react-native';
+import {SafeAreaView, ScrollView, Image} from 'react-native';
 import {
   Layout,
   Text,
@@ -19,6 +19,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 export const EditProductScreen = () => {
   const imageTemplate = '../img/imageTemplate.png';
+  const barcodeImg = '../img/barcode.png';
   const dispatch = useDispatch();
   //const stock = useSelector(state => state.stock);
 
@@ -29,46 +30,63 @@ export const EditProductScreen = () => {
   };
 
   return (
-    <Layout>
-      <Card>
-        <Text style={styles.sectionTitle}>Product Image</Text>
-        <Layout style={styles.container}>
-          <Image
-            style={styles.ImageComponent}
-            source={require(imageTemplate)}
-            resizeMode="contain"
-          />
-        </Layout>
-        <Layout style={styles.chooseImage}>
-          <Button>From Gallery</Button>
-          <Button>Camera</Button>
-        </Layout>
-      </Card>
-      <Card>
-        <Text style={styles.sectionTitle}>Product Info</Text>
-        <Layout style={styles.toggle}>
-          <Toggle checked={checked} onChange={onCheckedChange}>
-            {checked ? `Product enabled` : `Product Disabled`}
-          </Toggle>
-        </Layout>
-        <Layout>
-          <Text>Name</Text>
-          <Input />
-        </Layout>
-        <Layout>
-          <Text>Price</Text>
-          <Input />
-        </Layout>
-        <Layout>
-          <Text>Cost Price</Text>
-          <Input />
-        </Layout>
-        <Layout>
-          <Text>SKU</Text>
-          <Input />
-        </Layout>
-      </Card>
-    </Layout>
+    <ScrollView>
+      <Layout>
+        <Card>
+          <Text style={styles.sectionTitle}>Product Image</Text>
+          <Layout style={styles.container}>
+            <Image
+              style={styles.ImageComponent}
+              source={require(imageTemplate)}
+              resizeMode="contain"
+            />
+          </Layout>
+          <Layout style={styles.chooseImage}>
+            <Button>From Gallery</Button>
+            <Button>Camera</Button>
+          </Layout>
+        </Card>
+        <Card>
+          <Text style={styles.sectionTitle}>Product Info</Text>
+          <Layout style={styles.toggle}>
+            <Toggle checked={checked} onChange={onCheckedChange}>
+              {checked ? `Product enabled` : `Product Disabled`}
+            </Toggle>
+          </Layout>
+          <Layout>
+            <Text>Name</Text>
+            <Input />
+          </Layout>
+          <Layout>
+            <Text>Price</Text>
+            <Input />
+          </Layout>
+          <Layout>
+            <Text>Cost Price</Text>
+            <Input />
+          </Layout>
+          <Layout>
+            <Text>SKU</Text>
+            <Input />
+          </Layout>
+        </Card>
+        <Card>
+          <Text style={styles.sectionTitle}>Barcode</Text>
+
+          <Layout style={{justifyContent: 'center', flexDirection: 'row'}}>
+            <Image
+              style={styles.barcodeImg}
+              source={require(barcodeImg)}
+              resizeMode="contain"
+            />
+          </Layout>
+          <Layout style={styles.chooseImage}>
+            <Button>Save</Button>
+            <Button>Scan </Button>
+          </Layout>
+        </Card>
+      </Layout>
+    </ScrollView>
   );
 };
 
@@ -85,6 +103,10 @@ const styles = StyleService.create({
   ImageComponent: {
     width: 64,
     height: 64,
+  },
+  barcodeImg: {
+    width: 128,
+    height: 128,
   },
   sectionTitle: {
     fontSize: 20,
